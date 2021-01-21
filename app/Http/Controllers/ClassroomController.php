@@ -14,6 +14,8 @@ class ClassroomController extends Controller
      */
     public function index()
     {
+        //Date from DB
+
         $classrooms = Classroom::all();
         //dd($classrooms);
         return view('classrooms.index', compact('classrooms'));
@@ -41,14 +43,17 @@ class ClassroomController extends Controller
     }
 
     /**
-     * Display the specified resource. (Mostra la risorsa in base all'id)
+     * Display the specified resource. (Mostra la risorsa in base all'id -- DETAIL PAGE)
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id)       //Sintassi super compatta --> show(Classroom[modello] $classroom[variabile]) -- non serve l'ID perchè lo cerca dalla rotta
     {
-        //
+        $classroom = Classroom::find($id);
+        //dd($classroom);
+        return view('classrooms.show', compact('classroom'));
+
     }
 
     /**
