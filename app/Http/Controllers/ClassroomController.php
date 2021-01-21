@@ -32,14 +32,37 @@ class ClassroomController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage. (Salva nuove risorse)
+     * Store a newly created resource in storage. (Salva e valida nuove risorse)
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        //Get data
+        $data = $request->all();
+        //dd($data);
+
+
+        //VALIDATION
+        $request->validate([
+            'name' => 'required|unique:classrooms|max:10',
+            'description' => 'required'
+        ]);   
+
+        //Save data in DB
+        $classroom = new Classroom();
+        $classroom->name = $data['name'];
+        $classroom->description = $data['description'];
+
+        //Check salvataggio: è andato a buon fine? true/false
+        $saved = $classroom->save();
+        //dd($saved);
+        
+        //Redirect at detail page
+        if($saved) {
+            return redirect()->route('classrooms.show', $classroom->id );
+        }     
     }
 
     /**
